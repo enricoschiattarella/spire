@@ -11,6 +11,7 @@ import (
 	"github.com/spiffe/spire/pkg/server/plugin/nodeattestor/azure"
 	"github.com/spiffe/spire/pkg/server/plugin/nodeattestor/gcp"
 	"github.com/spiffe/spire/pkg/server/plugin/nodeattestor/jointoken"
+	"github.com/spiffe/spire/pkg/server/plugin/nodeattestor/k8s"
 	"github.com/spiffe/spire/pkg/server/plugin/nodeattestor/x509pop"
 	aws_resolver "github.com/spiffe/spire/pkg/server/plugin/noderesolver/aws"
 	"github.com/spiffe/spire/pkg/server/plugin/noderesolver/noop"
@@ -62,6 +63,7 @@ var (
 			"gcp_iit":    nodeattestor.NewBuiltIn(gcp.NewIITAttestorPlugin()),
 			"x509pop":    nodeattestor.NewBuiltIn(x509pop.New()),
 			"azure_msi":  nodeattestor.NewBuiltIn(azure.NewMSIAttestorPlugin()),
+			"k8s":        nodeattestor.NewBuiltIn(k8s.New()),
 		},
 		NodeResolverType: {
 			"noop":    noderesolver.NewBuiltIn(noop.New()),
