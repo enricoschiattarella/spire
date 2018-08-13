@@ -57,9 +57,8 @@ type manager struct {
 	cache cache.Cache
 	svid  svid.Rotator
 
-	spiffeID       string
-	serverSPIFFEID string
-	serverAddr     net.Addr
+	spiffeID   string
+	serverAddr net.Addr
 
 	svidCachePath   string
 	bundleCachePath string
@@ -71,7 +70,7 @@ func (m *manager) Initialize(ctx context.Context) error {
 	m.storeSVID(m.svid.State().SVID)
 	m.storeBundle(m.cache.Bundle())
 
-	return m.synchronize()
+	return m.synchronize(ctx)
 }
 
 func (m *manager) Run(ctx context.Context) error {
@@ -120,7 +119,7 @@ func (m *manager) runSynchronizer(ctx context.Context) error {
 	for {
 		select {
 		case <-t.C:
-			err := m.synchronize()
+			err := m.synchronize(ctx)
 			if err != nil {
 				// Just log the error to keep waiting for next sinchronization...
 				m.c.Log.Errorf("synchronize failed: %v", err)
